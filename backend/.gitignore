@@ -1,0 +1,21 @@
+###########
+# Backend #
+###########
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# DB
+backups/
+quiz/db.sqlite3
+
+# Virtual environments
+.venv
+
+###########
+# Globals #
+###########
+TODO.md
