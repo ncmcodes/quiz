@@ -37,21 +37,19 @@ class QuizViewSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "category"]
 
 
-# Frontend is consuming: api/quiz/${quiz_id}
 class QuizSerializer(serializers.ModelSerializer):
     card_id_detail = CardSerializer(source="card_id", read_only=True)
-    details = QuizViewSerializer(source="quiz", read_only=True)
+    details = QuizViewSerializer(source="quiz_id", read_only=True)
 
     class Meta:
         model = models.Quiz
-        fields = ["quiz", "card_id", "card_id_detail", "details"]
+        fields = ["quiz_id", "card_id", "card_id_detail", "details"]
 
 
 ##############
 # Categorize #
 ##############
 class CardCategorizeSerializer(serializers.ModelSerializer):
-    # card_front = serializers.CharField(source="card_id.front", read_only=True)
     quizzes = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -61,7 +59,7 @@ class CardCategorizeSerializer(serializers.ModelSerializer):
     def get_quizzes(self, obj):
         quizzes = models.Quiz.objects.filter(card_id=obj.id)
         return [
-            {"quiz_id": quiz.quiz.id, "name": quiz.quiz.name}  # type: ignore[ReportAttributeAccessIssue]
+            {"quiz_id": quiz.quiz_id.id, "name": quiz.quiz_id.name}  # type: ignore[ReportAttributeAccessIssue]
             for quiz in quizzes
         ]
 
