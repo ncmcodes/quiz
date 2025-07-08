@@ -16,8 +16,14 @@ Lastly, I have written a [diary](https://github.com/ncmcodes/diary) and a notes 
 # Pictures
 
 ![img](https://ncmcodes.com/_next/image?url=%2Fp%2FQUIZZES%2F1.png&w=3840&q=75)
+A view of all the different quizzes
+
 ![img](https://ncmcodes.com/_next/image?url=%2Fp%2FQUIZZES%2F2.png&w=3840&q=75])
+A view of all the cards in a given quiz
+
+
 ![img](https://ncmcodes.com/_next/image?url=%2Fp%2FQUIZZES%2F3.png&w=3840&q=75)
+A view of categorization of cards into quizzes
 
 ---
 
