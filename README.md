@@ -3,18 +3,18 @@
 Self-hosted single-user Quiz app. The motivation for this project was that I wanted complete control a quiz app; the code as well as the data. There are other self hosted alternatives such as [Scholarsome](https://www.scholarsome.com/) or the mighty [Anki](https://apps.ankiweb.net/) and they are great apps, but I wanted a fully personalized app suited to my needs. Lastly, I have written a [diary](https://github.com/ncmcodes/diary) and a notes app and wanted some sort of integration between these three apps.
 
 
-[!img](https://ncmcodes.com/_next/image?url=%2Fp%2FQUIZZES%2F1.png&w=3840&q=75)
-[!img](https://ncmcodes.com/_next/image?url=%2Fp%2FQUIZZES%2F2.png&w=3840&q=75])
-[!img](https://ncmcodes.com/_next/image?url=%2Fp%2FQUIZZES%2F3.png&w=3840&q=75)
+![img](https://ncmcodes.com/_next/image?url=%2Fp%2FQUIZZES%2F1.png&w=3840&q=75)
+![img](https://ncmcodes.com/_next/image?url=%2Fp%2FQUIZZES%2F2.png&w=3840&q=75])
+![img](https://ncmcodes.com/_next/image?url=%2Fp%2FQUIZZES%2F3.png&w=3840&q=75)
 
 
-# Current Features
+# Features
 * Flashcards quizzes
 * Markdown for different cards
 * Adding or modifying which quizzes a card belongs to
 
 
-# Planned Features
+# Future Features
 
 * Additional quiz types:
   * Match image to term
