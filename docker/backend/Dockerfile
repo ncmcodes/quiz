@@ -1,6 +1,6 @@
 FROM python:slim
 
-ENV DJANGO_SETTINGS_MODULE quiz.settings.production
+ENV DJANGO_SETTINGS_MODULE=quiz.settings.production
 
 # Install dependencies
 RUN mkdir -p /app/quiz
