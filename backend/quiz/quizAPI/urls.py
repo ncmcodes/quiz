@@ -16,5 +16,4 @@ urlpatterns = [
         views.SingleCardsCategorizeView.as_view(),
         name="cards-categorize-single",
     ),
-    path("quiz/add/", views.QuizAdd.as_view(), name="quiz-add"),
 ]

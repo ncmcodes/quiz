@@ -1,11 +1,10 @@
+# from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import render
-from django_filters.rest_framework import DjangoFilterBackend
-import json
 from . import models
 from . import serializers
 
@@ -21,7 +20,7 @@ def index(request):
 class CardView(generics.ListCreateAPIView):
     queryset = models.Card.objects.all()
     serializer_class = serializers.CardSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
 
 # URL/api/card/<int>
@@ -47,16 +46,6 @@ class SingleQuizView(generics.ListAPIView):
     def get_queryset(self):  # type: ignore[reportIncompatibleMethodOverride]
         quiz_id = self.kwargs["quiz"]
         return models.Quiz.objects.filter(quiz_id=quiz_id)
-
-
-# # Frontend does NOT consume this API
-# # URL/quiz/add
-class QuizAdd(generics.ListCreateAPIView):
-    queryset = models.Quiz.objects.all()
-    serializer_class = serializers.QuizSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["quiz_id"]
-    permission_classes = [permissions.IsAuthenticated]
 
 
 ##############
@@ -87,7 +76,7 @@ class SingleCardsCategorizeView(APIView):
 
         if serializer.is_valid():
             card_id = pk
-            quizzes = json.loads(request.data["quizzes"])
+            quizzes = request.data["quizzes"]
             query = models.Quiz.objects.filter(card_id=card_id)
             set_a = set([card.quiz_id for card in query])  # type: ignore[reportAttributeAccessIssue]
             set_b = set(quizzes)

@@ -60,7 +60,21 @@
 
 # Tests
 
-```yaml
-# Can we add/update a Card to a list of Quizzes?
-http PUT 127.0.0.1:8000/api/cards/categorize/2 quizzes="[1, 2, 3]"
+```bash
+# Add a card to a list of quizzes
+http PUT 127.0.0.1:8000/api/cards/categorize/3 quizzes:='[1, 2, 3]'
+
+# Add a flashcard
+http POST 127.0.0.1:8000/api/card/ front="Name USA's 3rd President" back="Thomas Jefferson" card_type="Flashcard"
+
+# Create a new user
+http POST 127.0.0.1:8000/auth/users/ username='djoser' password='super_secret_00_password'
+
+# Create a JWT for the user
+http POST 127.0.0.1:8000/auth/jwt/create/ username='djoser' password='super_secret_00_password'
+
+# Get user details
+# For token instead of JWT we would replace 'Bearer' with 'Token'. However, this project uses JWT not Token authentication
+http GET 127.0.0.1:8000/auth/users/me/ -A bearer -a 'JWT_GOES_HERE'
+curl http://127.0.0.1:8000/auth/users/me/ -H 'Authorization: Bearer ACCESS_JWT_HERE'
 ```

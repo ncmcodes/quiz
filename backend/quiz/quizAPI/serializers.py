@@ -65,7 +65,7 @@ class CardCategorizeSerializer(serializers.ModelSerializer):
 
 
 class SingleCardCategorizeSerializer(serializers.ModelSerializer):
-    quizzes = serializers.CharField()
+    quizzes = serializers.ListField()
 
     class Meta:
         model = models.Quiz
