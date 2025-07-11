@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+# DEBUG
+# sleep infinity
+
+# BUILD and RUN
+npm run build
+npm run start

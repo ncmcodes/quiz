@@ -2,13 +2,19 @@
 
 cd /app/quiz/
 
-if [ ! -f "/data/db.sqlite3" ]; then
-  echo "[WARNING] Database not found"
-  # if [ -f "/app/quiz/sample.db" ]; then
-  #   echo "[INFO] Copying a sample db."
-  #   cp /app/quiz/sample.db /data/db.sqlite3
-  # fi
+if [ -z DJANGO_SECRET ]; then
+  SECRET=$(python -c 'from django.core.management.management.utils import get_random_secret_key; print(get_random_secret_key()')
+  export DJANGO_SECRET="$SECRET"
+  echo "[INFO] Secret key set to $SECRET"
+else
+  echo "[INFO] Secret is $DJANGO_SECRET"
 fi
 
+if [ ! -d "/data/logs/" ]; then
+  mkdir /data/logs/
+  touch /data/logs/quiz.log
+fi
+
+# Update database or create one if it does not exist
 uv run manage.py migrate
 uv run gunicorn --bind '0.0.0.0:8000' --worker-tmp-dir /dev/shm --workers=2 --threads=4 --worker-class=gthread --log-file=- quiz.wsgi:application

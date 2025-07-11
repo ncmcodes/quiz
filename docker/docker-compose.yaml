@@ -1,0 +1,48 @@
+services:
+  # DJANGO
+  quizbackend:
+    image: localhost/quizback:latest
+    container_name: quizbackend
+    hostname: quizbackend
+    volumes:
+      - quiz:/data
+    networks:
+      - quizzes
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      - DJANGO_SECRET=SUPER_SECRET_PLEASE_CHANGE_ME
+    healthcheck:
+      # The fail flag makes the command fail if server returns code 400 or higher
+      test: ["CMD", "curl", "--fail", "http://quizbackend:8000/health/"]
+      interval: 60s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
+    restart: unless-stopped
+
+  # NEXTJS
+  # Start container after quizbackend is healthy
+  quizfrontend:
+    image: localhost/quizfront:latest
+    container_name: quizfrontend
+    hostname: quizfrontend
+    networks:
+      - quizzes
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      - BACKEND_URL=http://quizbackend:8000
+    depends_on:
+      quizbackend:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  quizzes:
+    name: quizzes
+    external: false
+
+volumes:
+  quiz:
+    name: quiz
