@@ -1,10 +1,9 @@
 import os
-from django.core.management.utils import get_random_secret_key
 from .base import *
 
 DEBUG = False
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "192.168.1.20", "quiz-front"]
-SECRET_KEY = os.environ.get("DJANGO_SECRET", f"{get_random_secret_key()}")
+ALLOWED_HOSTS = ["127.0.0.1", "10.0.0.0/8", "192.168.0.0/16", "localhost", "quizbackend"]
+SECRET_KEY = os.environ.get("DJANGO_SECRET", "")
 
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 DATABASES = {
@@ -18,7 +17,7 @@ DATABASES = {
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 # TODO: Fix static files not being served
 STATIC_URL = "static/"
-STATIC_ROOT = "/app/quiz/static"
+STATIC_ROOT = "/app/quiz/static/"
 
 # CACHES = {
 #     "default": {
@@ -42,6 +41,48 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+# https://docs.djangoproject.com/en/5.2/howto/logging/
+# LOGS
+if not os.path.isdir("/data/logs/"):
+    os.makedirs("/data/logs")
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "[{asctime}] {levelname} {name} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "/data/logs/quiz.log",
+            "formatter": "verbose",
+            "maxBytes": 1024 * 1024 * 5,  # 5MB
+            "backupCount": 5,  # keep 5 old logs
+        },
+    },
+    "loggers": {
+        "": {  # "" catch root-level logs
+            "handlers": ["file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "django": {  # More granular
+            "handlers": ["file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "__main__": {
+            "handlers": ["file"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+    },
+}
 
 print("=================================")
 print("====== PRODUCTION ===============")

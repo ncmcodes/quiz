@@ -15,7 +15,4 @@ quiz/db.sqlite3
 # Virtual environments
 .venv
 
-###########
-# Globals #
-###########
-TODO.md
+quiz/quiz/quiz.log

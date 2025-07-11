@@ -25,7 +25,7 @@ class CardSerializer(serializers.ModelSerializer):
         return markdown.markdown(obj.front)
 
     def get_back_html(self, obj):
-        return markdown.markdown(obj.back)
+        return markdown.markdown(obj.back, extensions=["fenced_code", "codehilite"])
 
 
 ###########

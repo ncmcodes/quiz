@@ -4,27 +4,67 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from django.shortcuts import render
+import logging
 from . import models
 from . import serializers
 
+logger = logging.getLogger(__name__)
 
+
+class LoggedAPI(APIView):
+    def dispatch(self, request, *args, **kwargs):
+        logger.info(f"➡️ Request: {request.method} {request.path} by {request.user}")
+
+        if request.GET:
+            logger.debug(f"Query params: {request.GET}")
+
+        try:
+            logger.debug(f"Request data: {request.data}")
+        except Exception as e:
+            logger.debug(f"Failed to log request.data: {e}")
+
+        try:
+            response = super().dispatch(request, *args, **kwargs)
+        except Exception as e:
+            logger.error(f"Unhandled exception: {str(e)}")
+            raise
+
+        logger.info(f"⬅️ Response status: {response.status_code}")
+
+        try:
+            logger.debug(f"Response data: {getattr(response, 'data', 'No .data')}")
+        except Exception as e:
+            logger.debug(f"Failed to log response data: {e}")
+
+        return response
+
+
+@api_view(["GET"])
 def index(request):
     return render(request, "home.html")
+
+
+@api_view(["GET"])
+def health_check(request):
+    return Response(
+        {"status": "healthy", "message": "Service is up and running"}, status=status.HTTP_200_OK
+    )
 
 
 ########
 # CARD #
 ########
 # URL/api/card/
-class CardView(generics.ListCreateAPIView):
+class CardView(LoggedAPI, generics.ListCreateAPIView):
     queryset = models.Card.objects.all()
     serializer_class = serializers.CardSerializer
     # permission_classes = [permissions.IsAuthenticated]
 
 
 # URL/api/card/<int>
-class SingleCardView(generics.RetrieveUpdateAPIView, generics.DestroyAPIView):
+class SingleCardView(LoggedAPI, generics.RetrieveUpdateAPIView, generics.DestroyAPIView):
     queryset = models.Card.objects.all()
     serializer_class = serializers.CardSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -65,12 +105,12 @@ class SingleCardsCategorizeView(APIView):
         def return_if_id_inexistant(card_id, quiz_ids):
             if not models.Card.objects.filter(id=card_id).exists():
                 message = f"Card ID {card_id} not found"
-                print(f"[ERROR] {message}")
+                logger.error(f"[QUIZ] {message}")
                 return message
             for quiz_id in quiz_ids:
                 if not models.Quiz.objects.filter(quiz_id=quiz_id).exists():
                     message = f"Quiz ID {quiz_id} not found"
-                    print(f"[ERROR] {message}")
+                    logger.error(f"[QUIZ] {message}")
                     return message
             return ""
 
@@ -87,19 +127,19 @@ class SingleCardsCategorizeView(APIView):
 
             # Items that were removed from the original set
             for i in set_a - set_b:
-                print(f"[INFO] Deleting quiz_id {i} for card_id {card_id}")
+                logger.info(f"[QUIZ] Deleting quiz_id {i} for card_id {card_id}")
                 tmp = models.Quiz.objects.get(card_id=card_id, quiz_id=i)
                 tmp.delete()
 
             # Items that were added to the original set
             for i in set_b - set_a:
                 try:
-                    print(f"[INFO] Adding QUIZ ({i}) for CARD ({card_id})")
+                    logger.info(f"[QUIZ] Adding QUIZ ({i}) for CARD ({card_id})")
                     quiz_details = models.QuizDetails.objects.get(id=i)
                     card = models.Card.objects.get(id=card_id)
                     models.Quiz.objects.create(card_id=card, quiz_id=quiz_details)
                 except models.QuizDetails.DoesNotExist:
-                    print(f"[ERROR] There is no QUIZ with an ID of {i}.")
+                    logger.error(f"[QUIZ] Adding QUIZ ({i}) for CARD ({card_id})")
 
             message = f"PUT request received. Card = {card_id}. Quizzes = {quizzes}."
             return Response({"message": message}, status=status.HTTP_200_OK)
