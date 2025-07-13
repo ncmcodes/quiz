@@ -3,15 +3,15 @@
 | URL                        	| Methods                      	| Description                                                                                                                                        	|
 |----------------------------	|------------------------------	|----------------------------------------------------------------------------------------------------------------------------------------------------	|
 | /api/card/                 	| GET<br>POST                  	| A list of all cards<br>- id<br>- front<br>- back<br>- card_type<br>- front_html<br>- back_html                                                     	|
-| /api/card/<id>             	| GET<br>POST<br>PUT<br>DELETE 	|                                                                                                                                                    	|
+| /api/card/\<id\>             	| GET<br>POST<br>PUT<br>DELETE 	|                                                                                                                                                    	|
 | /api/quiz/                 	| GET                          	| A list of all quizzes<br>- id<br>- name<br>- category                                                                                              	|
-| /api/quiz/<id>             	| GET                          	|                                                                                                                                                    	|
+| /api/quiz/\<id\>             	| GET                          	|                                                                                                                                                    	|
 | /api/cards/categorize/     	| GET                          	| A list of cards with a quizzes array (which quizzes does this card belong to)<br>- id<br>- front<br>- quizzes [{"quiz_id": val, "name": val}, ...] 	|
-| /api/cards/categorize/<id> 	| PUT                          	| Update a the list of quizzes a card belongs to<br><br>Test with:<br>http PUT 127.0.0.1:8000/api/cards/categorize/2 quizzes="[1, 2, 3]"             	|
+| /api/cards/categorize/\<id\> 	| PUT                          	| Update a the list of quizzes a card belongs to |
 
 
 ---
-# Database Details
+# Database Example
 ```
 ╔═══════════════════════════════════════╗
 ║               Quiz Details            ║
