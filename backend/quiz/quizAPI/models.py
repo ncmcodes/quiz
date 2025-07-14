@@ -27,8 +27,8 @@ class QuizDetails(models.Model):
 
 
 class Quiz(models.Model):
-    quiz_id = models.ForeignKey(QuizDetails, on_delete=models.PROTECT)
-    card_id = models.ForeignKey(Card, on_delete=models.PROTECT)
+    quiz_id = models.ForeignKey(QuizDetails, on_delete=models.CASCADE)
+    card_id = models.ForeignKey(Card, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Quizzes"

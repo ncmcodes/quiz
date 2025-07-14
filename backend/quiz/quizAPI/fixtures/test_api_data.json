@@ -1,0 +1,52 @@
+[
+    {
+        "model": "quizAPI.card",
+        "pk": 1,
+        "fields": {
+            "front": "Test Card 1",
+            "back": "Test Card 1 Back",
+            "card_type": "Flashcard"
+        }
+    },
+    {
+        "model": "quizAPI.card",
+        "pk": 2,
+        "fields": {
+            "front": "Test Card 2",
+            "back": "Test Card 2 Back",
+            "card_type": "Matchcard"
+        }
+    },
+    {
+        "model": "quizAPI.quizdetails",
+        "pk": 1,
+        "fields": {
+            "name": "Test Quiz 1",
+            "category": "Test Category 1"
+        }
+    },
+    {
+        "model": "quizAPI.quizdetails",
+        "pk": 2,
+        "fields": {
+            "name": "Test Quiz 2",
+            "category": "Test Category 2"
+        }
+    },
+    {
+        "model": "quizAPI.quiz",
+        "pk": 1,
+        "fields": {
+            "quiz_id": 1,
+            "card_id": 1
+        }
+    },
+    {
+        "model": "quizAPI.quiz",
+        "pk": 2,
+        "fields": {
+            "quiz_id": 2,
+            "card_id": 2
+        }
+    }
+]

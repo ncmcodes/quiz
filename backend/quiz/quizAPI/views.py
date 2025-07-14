@@ -60,7 +60,7 @@ def health_check(request):
 class CardView(LoggedAPI, generics.ListCreateAPIView):
     queryset = models.Card.objects.all()
     serializer_class = serializers.CardSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 # URL/api/card/<int>
@@ -99,6 +99,8 @@ class CardsCategorizeView(generics.ListAPIView):
 
 # URL/api/cards/categorize/<int>
 class SingleCardsCategorizeView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     def put(self, request, pk):
         serializer = serializers.SingleCardCategorizeSerializer(data=request.data)
 
