@@ -1,18 +1,10 @@
-###########
-# Backend #
-###########
 __pycache__/
 *.py[oc]
 build/
 dist/
 wheels/
 *.egg-info
-
-# DB
+.venv
 backups/
 quiz/db.sqlite3
-
-# Virtual environments
-.venv
-
 quiz/quiz/quiz.log

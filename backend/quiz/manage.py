@@ -7,9 +7,9 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    if os.environ.get("DJANGO_DEBUG", "").lower() == "true":
+    if os.environ.get("DJANGO_DEBUG", "").lower() == "development":
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "quiz.settings.development")
-    elif os.environ.get("DJANGO_DEBUG", "").lower() == "tests":
+    elif os.environ.get("DJANGO_DEBUG", "").lower() == "testing":
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "quiz.settings.tests")
 
     try:

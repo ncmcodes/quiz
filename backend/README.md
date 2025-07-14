@@ -61,20 +61,25 @@
 # Tests
 
 ```bash
-# Add a card to a list of quizzes
-http PUT 127.0.0.1:8000/api/cards/categorize/3 quizzes:='[1, 2, 3]'
+# Get refresh_token and access_token (HTTPONLY JWT Cookie)
+http --session=auth_session POST http://127.0.0.1:8000/auth/token/ username='test' password='test'
+
+# Given the refresh_token get a renewed access_token (HTTPONLY JWT Cookie)
+http --session=auth_session POST http://127.0.0.1:8000/auth/token/refresh/
 
 # Add a flashcard
-http POST 127.0.0.1:8000/api/card/ front="Name USA's 3rd President" back="Thomas Jefferson" card_type="Flashcard"
+http --session=auth_session POST 127.0.0.1:8000/api/card/ front="USA's 3rd President" back="Thomas Jefferson" card_type="Flashcard"
+http POST 127.0.0.1:8000/api/card/ front="USA's 3rd President" back="Thomas Jefferson" card_type="Flashcard" Cookie:"access_token=…"
 
-# Create a new user
-http POST 127.0.0.1:8000/auth/users/ username='djoser' password='super_secret_00_password'
+# Add a card to a list of quizzes
+http --session=auth_session PUT 127.0.0.1:8000/api/cards/categorize/3 quizzes:='[1, 2, 3]'
+http PUT 127.0.0.1:8000/api/cards/categorize/3 quizzes:='[1, 2, 3]' Cookie:"access_token=…"
 
-# Create a JWT for the user
-http POST 127.0.0.1:8000/auth/jwt/create/ username='djoser' password='super_secret_00_password'
 
-# Get user details
-# For token instead of JWT we would replace 'Bearer' with 'Token'. However, this project uses JWT not Token authentication
-http GET 127.0.0.1:8000/auth/users/me/ -A bearer -a 'JWT_GOES_HERE'
-curl http://127.0.0.1:8000/auth/users/me/ -H 'Authorization: Bearer ACCESS_JWT_HERE'
+
+# ----------#
+# Run tests #
+# ----------#
+uv run manage.py test quizAPI --settings=quiz.settings.tests
+uv run manage.py test quizAUTH --settings=quiz.settings.tests
 ```
