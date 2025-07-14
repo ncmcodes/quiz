@@ -84,6 +84,21 @@ LOGGING = {
     },
 }
 
+SIMPLE_JWT.update(
+    {
+        "ROTATE_REFRESH_TOKENS": False,
+        "SIGNING_KEY": SECRET_KEY,
+        "AUTH_COOKIE_DOMAIN": None,
+        "AUTH_COOKIE_SECURE": False,
+        "AUTH_COOKIE_HTTP_ONLY": True,
+        "AUTH_COOKIE_PATH": "/",
+        "AUTH_COOKIE_SAMESITE": "Lax",
+    }
+)
+
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
+CORS_ALLOWED_CREDENTIALS = True
+
 print("=================================")
 print("====== PRODUCTION ===============")
 print("=================================")
