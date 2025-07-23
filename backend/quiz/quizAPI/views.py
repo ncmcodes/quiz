@@ -41,6 +41,9 @@ class LoggedAPI(APIView):
         return response
 
 
+##################
+# Home and Tests #
+##################
 @api_view(["GET"])
 def index(request):
     return render(request, "home.html")
@@ -51,6 +54,14 @@ def health_check(request):
     return Response(
         {"status": "healthy", "message": "Service is up and running"}, status=status.HTTP_200_OK
     )
+
+
+@api_view(["GET"])
+def auth_status(request):
+    if request.user.is_authenticated:
+        return Response({"message": "Logged in"}, status=status.HTTP_200_OK)
+    else:
+        return Response({"message": "Not Logged in"}, status=status.HTTP_403_FORBIDDEN)
 
 
 ########

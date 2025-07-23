@@ -32,9 +32,12 @@ class CardSerializer(serializers.ModelSerializer):
 # Quizzes #
 ###########
 class QuizViewSerializer(serializers.ModelSerializer):
+    # Provide quiz_id instead of id for consistency with the Quiz model
+    quiz_id = serializers.IntegerField(source="id", read_only=True)
+
     class Meta:
         model = models.QuizDetails
-        fields = ["id", "name", "category"]
+        fields = ["quiz_id", "name", "category"]
 
 
 class QuizSerializer(serializers.ModelSerializer):
