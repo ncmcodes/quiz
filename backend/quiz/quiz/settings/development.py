@@ -1,4 +1,5 @@
 from .base import *
+from datetime import timedelta
 
 DEBUG = True
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
@@ -60,6 +61,8 @@ LOGGING = {
 
 SIMPLE_JWT.update(
     {
+        "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1),
+        "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
         "ROTATE_REFRESH_TOKENS": False,
         "SIGNING_KEY": SECRET_KEY,
         "AUTH_COOKIE_DOMAIN": None,
