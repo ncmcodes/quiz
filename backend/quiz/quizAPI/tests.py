@@ -5,7 +5,10 @@ from .models import Card, Quiz
 
 
 class CardViewTests(TestCase):
-    fixtures = ["test_api_data.json"]
+    fixtures = ["test_api_data.json", "test_auth_data.json"]
+
+    def setUp(self):
+        self.client.login(username="admin", password="admin")
 
     def test_get_cards(self):
         url = reverse("cards")
@@ -79,7 +82,10 @@ class CardsCategorizeViewTests(TestCase):
 
 
 class SingleCardsCategorizeViewTests(TestCase):
-    fixtures = ["test_api_data.json"]
+    fixtures = ["test_api_data.json", "test_auth_data.json"]
+
+    def setUp(self):
+        self.client.login(username="admin", password="admin")
 
     def test_categorize_card(self):
         url = reverse("cards-categorize-single", kwargs={"pk": 1})
