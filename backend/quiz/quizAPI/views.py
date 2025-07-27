@@ -117,12 +117,12 @@ class SingleCardsCategorizeView(APIView):
 
         def return_if_id_inexistant(card_id, quiz_ids):
             if not models.Card.objects.filter(id=card_id).exists():
-                message = f"Card ID {card_id} not found"
+                message = f"The CARD with an ID of {card_id} does not exist"
                 logger.error(f"[QUIZ] {message}")
                 return message
             for quiz_id in quiz_ids:
-                if not models.Quiz.objects.filter(quiz_id=quiz_id).exists():
-                    message = f"Quiz ID {quiz_id} not found"
+                if not models.QuizDetails.objects.filter(id=quiz_id).exists():
+                    message = f"The QUIZ with an ID of {quiz_id} does not exist"
                     logger.error(f"[QUIZ] {message}")
                     return message
             return ""
