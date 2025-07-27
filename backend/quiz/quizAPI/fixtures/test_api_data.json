@@ -34,6 +34,14 @@
         }
     },
     {
+        "model": "quizAPI.quizdetails",
+        "pk": 3,
+        "fields": {
+            "name": "Test Quiz 3",
+            "category": "Test Category 3"
+        }
+    },
+    {
         "model": "quizAPI.quiz",
         "pk": 1,
         "fields": {

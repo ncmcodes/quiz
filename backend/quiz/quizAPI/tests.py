@@ -58,7 +58,7 @@ class QuizViewTests(TestCase):
         url = reverse("quiz-list")
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)
+        self.assertEqual(len(response.data), 3)
 
 
 class SingleQuizViewTests(TestCase):
@@ -94,3 +94,15 @@ class SingleCardsCategorizeViewTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Quiz.objects.filter(card_id=1).count(), 1)
         self.assertEqual(Quiz.objects.get(card_id=1, quiz_id=2).quiz_id.id, 2)
+
+    # Test adding a QuizDetail item that has no entry in the Quiz table
+    # Adding this test to make sure that we able to assign Quizzes with
+    # no entries in the Quiz table. Previously SingleCardsCategorizeView had
+    # a bug where this was not the case.
+    def test_categorize_unassigned_quiz_detail(self):
+        url = reverse("cards-categorize-single", kwargs={"pk": 1})
+        data = {"quizzes": [3]}
+        response = self.client.put(url, data, content_type="application/json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Quiz.objects.filter(card_id=1).count(), 1)
+        self.assertEqual(Quiz.objects.get(card_id=1, quiz_id=3).quiz_id.id, 3)
